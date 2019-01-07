@@ -10,12 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#import <iostream>
+#include <iostream>
+#include <string>
 
 int main(int argc, char* argv[])
 {
 	if (argc && argc > 1) {
-		char *string = argv[1];
+        std::string string = argv[1];
 		int i = -1;
 		while(string[++i]) {
 			char c = toupper(string[i]);
