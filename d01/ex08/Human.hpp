@@ -23,8 +23,6 @@ class Human
 		void rangedAttack(std::string const & target);
 		void intimidatingShout(std::string const & target);
 	public:
-		Human();
-		~Human();
 		void action(std::string const & action_name, std::string const & target);
 };
 

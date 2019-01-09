@@ -14,7 +14,7 @@
 #include "Human.hpp"
 
 int main(void) {
-	//Human h;
-	// Human::action("meleeAttack", "toi");
+	Human h;
+	h.action("meleeAttack", "toi");
 	return 0;	
 }
