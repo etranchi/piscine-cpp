@@ -14,74 +14,117 @@
 #include "Fixed.hpp"
 
 
+std::string getValue(std::string src, Fixed & base);
+Fixed parse(std::string src, Fixed & base);
 
 
-std::string getOperand(std::string src) { 
+std::string parseOperand(std::string src, Fixed & base) {
 	int i = -1;
+	std::cout << "operand" << std::endl;
+	std::cout << base << std::endl;
+	std::cout << src << std::endl;
+	Fixed toDo;
 	while (++i < src.size()) {
-		if (src[i] == '+' || src[i] == '-' || src[i] == '/' || src[i] == '*') {
+		if (src[i] == '+') {
+
+			src = getValue(&src[++i], toDo);
+			std::cout << "TODO" << std::endl;
+			std::cout << toDo << std::endl;
+			std::cout << &src[i] << std::endl;
+			base = Fixed(base + toDo);
+			return &src[i];
+		} else if (src[i] == '-') {
+			src = getValue(&src[++i], toDo);
+			base = Fixed(base - toDo);
+			return &src[i];
+		} else if (src[i] == '*') {
+			src = getValue(&src[++i], toDo);
+			base = Fixed(base * toDo);
+			return &src[i];
+		} else if (src[i] == '/') {
+			src = getValue(&src[++i], toDo);
+			base = Fixed(base / toDo);
 			return &src[i];
 		}
 	}
-	return src;
+	return &src[i];
 }
 
-Fixed getValue(std::string src);
-
-Fixed performOperand(Fixed f, std::string src) {
-	int i = 0;
-	src = getOperand(&src[i]);
-	std::cout << src << std::endl;
-	if (src[0] == '+') {
-		std::cout <<  "add done" << std::endl;
-		return f + getValue(&src[1]);
-	} else if (src[0] == '-') {
-		std::cout <<  "minus done" << std::endl;
-		return f - getValue(&src[1]);
-	} else if (src[0] == '/') {
-		std::cout <<  "divide done" << std::endl;
-		return f / getValue(&src[1]);
-	} else if (src[0] == '*') {
-		std::cout <<  "mult done" << std::endl;
-		return f * getValue(&src[1]);
-	} else {
-		return f;
-	}
-}
-
-Fixed getValue(std::string src) {
-	std::cout << src << std::endl;
+std::string getValue(std::string src, Fixed & base) {
 	std::string input = "";
-
 	int i = -1;
+	std::cout << "value" << std::endl;
+	std::cout << base << std::endl;
+	std::cout << src << std::endl;
 	while (++i < src.size()) {
 		while(isdigit(src[i]) || src[i] == '.' || src[i] == ' ' || src[i] == '(' || src[i] == ')') {
-			if (src[i] == '('){
-				return getValue(&src[++i]);
+			std::cout << src[i] << std::endl;
+			if (src[i] == '(') {
+				base = parse(&src[++i], base);
 			}
-			else if (src[i] != ' '){
+			else if (src[i] == '+' || src[i] == '-' || src[i] == '/' || src[i] == '*') {
+				std::cout << "je passe bien ici" << std::endl;
+				src = parseOperand(&src[i], base);
+			}
+			else if (src[i] != ' ' && (src[i] != '(' || src[i] != ')')) {
 				input += src[i++];
-			} else {
+				std::cout << "grsajdfiolwhFGJN" << input << std::endl;
+			} else if (src[i] == ' '){
 				i++;
 			}
 		}
-		std::cout << input << std::endl;
-		float value = std::stof(input);
-		Fixed f = Fixed(value);
-		std::cout << "PLOUFUUUUFUF" << std::endl;
-		std::cout << input << std::endl;
-		if (input[1] == ')'){
-			return performOperand(getValue(&src[i]), &src[i]);
+				std::cout << "grsajdfiolwhFGJN" << input << std::endl;
+		while (src[i] == ' ') {
+			i++;
 		}
-		return performOperand(f, &src[i]);
+				std::cout << "grsajdfiolwhFGJN" << input << std::endl;
+		if (src[i] == '+' || src[i] == '-' || src[i] == '/' || src[i] == '*') {
+				std::cout << "je passe bien ici" << std::endl;
+				src = parseOperand(&src[i], base);
+		}
+		//if (src[i] == '\0' ||  src[i] == ')') {
+		//	return &src[i];
+		// }
+		std::cout << "grsajdfiolwhFGJN" << input << std::endl;
+		std::cout << "input" << std::endl;
+		std::cout << input << std::endl;
+		std::cout << &src[i] << std::endl;
+		if ((input == "" || input == ")" )) {
+			return "";
+		}
+		float value = std::stof(input);
+		base = Fixed(value);
+		if (input[input.size() - 1] == ')'){
+			std::cout << "je cuuuut" << std::endl;
+			return &src[input.size() + 1];
+		}
+		if (src[i] != '\0') {
+			src = parseOperand(&src[i], base);
+			return src;
+		}
+	}
+	return &src[i];
+
+}
+
+Fixed parse(std::string src, Fixed & base) {
+	std::string input = "";
+	int i = -1;
+	std::cout << "parse" << std::endl;
+	std::cout << src << std::endl;
+	std::cout << base << std::endl;
+	while (++i < src.size()) {
+		src = getValue(src, base);
+		i = -1; 
 		
 	}
-	return Fixed();
+	return base;
 }
 
 int main(int argc, char **argv) {
 	if (argc == 2) {
-		Fixed res = getValue(argv[1]);
+		Fixed init;
+		Fixed res = parse(argv[1], init);
 		std::cout << res << std::endl;
 	}
 	return 0;

@@ -14,28 +14,28 @@
 #include <cmath>
 
 Fixed::Fixed(void) : _data(0) {
-	std::cout << "Default constructor called" << std::endl;
+	
 	return;
 }
 
 Fixed::Fixed(Fixed const & src)  {
-	std::cout << "Copy constructor called" << std::endl;
+	
 	*this = src;
 	return; 
 }
 
 Fixed::Fixed(int const nb) {
-    std::cout << "Int constructor called" << std::endl;
+    
     this->_data = nb << this->_nfs;
 }
 
 Fixed::Fixed(float const f) {
-    std::cout << "Float constructor called" << std::endl;
+    
     this->_data = roundf(f * (1 << this->_nfs));
 }
 
 Fixed::~Fixed(void) {
-	std::cout << "Destructor called" << std::endl;
+	
 }
 
 int         Fixed::toInt() const {
@@ -48,7 +48,7 @@ float        Fixed::toFloat() const {
 
 
 Fixed & Fixed::operator=(Fixed const & rhs) {
-	std::cout << "Assignation operator called" << std::endl;
+	
 	this->_data = rhs.getRawBits();
 	return *this;
 }
@@ -81,12 +81,14 @@ Fixed & Fixed::operator--() {
 
 Fixed Fixed::operator++(int n) {
 	Fixed tmp = *this;
+	n = 0;
 	this->_data++;
 	return tmp;
 }
 
 Fixed Fixed::operator--(int n) {
 	Fixed tmp = *this;
+	n = 0;
 	--(this->_data);
 	return tmp;
 }
@@ -134,7 +136,7 @@ bool Fixed::operator!=(Fixed const & rhs) {
 }
 
 int Fixed::getRawBits() const {
-	// std::cout << "getRawBits member function called" <<std::endl;
+	// 
 	return this->_data;
 }
 
