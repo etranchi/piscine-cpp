@@ -16,11 +16,14 @@
 
 int main() {
 	try {
-		Bureaucrat *b = new Bureaucrat("John", 1);
+		Bureaucrat *b = new Bureaucrat("John", 150);
 		std::cout << b << std::endl;
-		b->incrementGrade();
+
+		Bureaucrat c;
+		std::cout << c << std::endl;
+		b->decrementGrade();
 	} catch (std::exception & e) {
-		std::cout << "Error" << std::endl;
+		std::cout << e.what() << std::endl;
 	}
 	return 0;
 }

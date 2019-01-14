@@ -22,17 +22,33 @@ public:
 	Bureaucrat(Bureaucrat & ref);
 	~Bureaucrat();
 	int getGrade() const;
-	std::string getName() const;
-	std::exception GradeTooLowException() const;
-	std::exception GradeTooHighException() const;
+	std::string const getName() const;
 	void incrementGrade();
+	std::string introduce() const;
 	void decrementGrade();
+	// class GradeTooHighException : public std::exception {
+	// public:
+	// 	GradeTooHighException();
+	// 	GradeTooHighException(std::string reason);
+	// 	// ~GradeTooHighException();
+	// 	virtual const char *what() const throw();
+	// 	std::string reason;
+	// };
+	// class GradeTooLowException : public std::exception {
+	// public:
+	// 	GradeTooLowException();
+	// 	GradeTooLowException(std::string reason);
+	// 	// ~GradeTooLowException();
+	// 	virtual const char *what() const throw();
+	// 	std::string reason;
+	// };
+
 
 private:
 	std::string const _name;
 	int _grade;
 };
 
-
-std::ostream & operator<<(std::ostream o, Bureaucrat & rhs);
+std::ostream &operator<<(std::ostream &o, Bureaucrat const & rhs);
+// std::ostream &operator<<(std::ostream &o, Bureaucrat * const & rhs);
 #endif
