@@ -13,7 +13,7 @@
 #include "Bureaucrat.hpp"
 
 
-Bureaucrat::Bureaucrat() : _name("default"), _grade(150) {
+Bureaucrat::Bureaucrat() : _name("default"), _grade(151) {
 
 }
 Bureaucrat::~Bureaucrat() {
@@ -22,12 +22,14 @@ Bureaucrat::~Bureaucrat() {
 
 Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name) {
 	if (grade < 1) {
-		// throw GradeTooHighException();
+		throw Bureaucrat::GradeTooHighException();
 	}
 	if (grade > 150) {
-		// throw GradeTooLowException();
+		throw Bureaucrat::GradeTooLowException();
 	}
 	this->_grade = grade;
+	std::cout << this->getGrade() << std::endl;
+	return;
 }
 
 int Bureaucrat::getGrade() const {
@@ -46,33 +48,32 @@ std::string Bureaucrat::introduce() const {
 void Bureaucrat::decrementGrade() {
 	this->_grade += 1; 
 	if (this->_grade > 150) {
-		// throw GradeTooLowException();
+		std::cout << this->getGrade() << std::endl;
+		throw Bureaucrat::GradeTooLowException();
 	}
-	return;
+	return ;
 }
 
 void Bureaucrat::incrementGrade() {
 	this->_grade -= 1;
 	if (this->_grade < 1) {
-		// throw GradeTooHighException();
+		throw Bureaucrat::GradeTooHighException();
 	}
+
 	return ;
 }
-
-// Bureaucrat::GradeTooHighException::GradeTooHighException() {}
-// // Bureaucrat::GradeTooHighException::~GradeTooHighException() {}
-// Bureaucrat::GradeTooLowException::GradeTooLowException() {}
-// // Bureaucrat::GradeTooLowException::~GradeTooLowException() {}
-// Bureaucrat::GradeTooHighException::GradeTooHighException(std::string reason) : reason(reason) {}
-// Bureaucrat::GradeTooLowException::GradeTooLowException(std::string reason) : reason(reason) {}
-// Bureaucrat::GradeTooHighException::GradeTooHighException::what() {return this->reason;}
-// Bureaucrat::GradeTooLowException::GradeTooLowException::what() {return this->reason;}
+Bureaucrat::GradeTooHighException::GradeTooHighException() {}
+Bureaucrat::GradeTooHighException::~GradeTooHighException() throw() {}
+Bureaucrat::GradeTooLowException::GradeTooLowException() {}
+Bureaucrat::GradeTooLowException::~GradeTooLowException() throw() {}
+const char *Bureaucrat::GradeTooHighException::GradeTooHighException::what() {return "Too High..";}
+const char *Bureaucrat::GradeTooLowException::GradeTooLowException::what() {return "Too Low..";}
 
 
-// std::ostream &operator<<(std::ostream &o, Bureaucrat * const & rhs) {
-// 	o << (rhs->introduce());
-// 	return o;
-// }
+std::ostream &operator<<(std::ostream &o, Bureaucrat * const & rhs) {
+	o << (rhs->introduce());
+	return o;
+}
 
 std::ostream &operator<<(std::ostream &o, Bureaucrat const & rhs) {
 	o << (rhs.introduce());

@@ -26,22 +26,18 @@ public:
 	void incrementGrade();
 	std::string introduce() const;
 	void decrementGrade();
-	// class GradeTooHighException : public std::exception {
-	// public:
-	// 	GradeTooHighException();
-	// 	GradeTooHighException(std::string reason);
-	// 	// ~GradeTooHighException();
-	// 	virtual const char *what() const throw();
-	// 	std::string reason;
-	// };
-	// class GradeTooLowException : public std::exception {
-	// public:
-	// 	GradeTooLowException();
-	// 	GradeTooLowException(std::string reason);
-	// 	// ~GradeTooLowException();
-	// 	virtual const char *what() const throw();
-	// 	std::string reason;
-	// };
+	class GradeTooHighException : public std::exception {
+	public:
+		GradeTooHighException();
+		virtual ~GradeTooHighException() throw();
+		virtual const char *what();
+	};
+	class GradeTooLowException : public std::exception {
+	public:
+		GradeTooLowException();
+		virtual ~GradeTooLowException() throw();
+		virtual const char *what();
+	};
 
 
 private:
@@ -50,5 +46,5 @@ private:
 };
 
 std::ostream &operator<<(std::ostream &o, Bureaucrat const & rhs);
-// std::ostream &operator<<(std::ostream &o, Bureaucrat * const & rhs);
+std::ostream &operator<<(std::ostream &o, Bureaucrat * const & rhs);
 #endif
