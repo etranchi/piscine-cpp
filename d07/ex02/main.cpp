@@ -37,8 +37,13 @@ int main() {
     for (unsigned int k =0; k < i; k++) {
         std::cout << std::to_string(c[k]) << " ";
     }
-
     std::cout << std::endl;
+    
+    try {
+        std::cout << c[11] << std::endl;
+    } catch (std::exception & e) {
+        std::cout << e.what() << std::endl;
+    }
 
 	return 0;
 }

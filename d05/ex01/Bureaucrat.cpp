@@ -1,7 +1,6 @@
 # include "Bureaucrat.hpp"
 
-
-Bureaucrat::Bureaucrat(void) : _name("no_name"), _grade(150){}
+Bureaucrat::Bureaucrat() : _name("no_name"), _grade(150){}
 
 Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name){
 	if (grade < 1)
@@ -16,12 +15,11 @@ Bureaucrat::Bureaucrat(Bureaucrat const &src){
 	*this = src;
 }
 
-Bureaucrat::~Bureaucrat(void) {}
+Bureaucrat::~Bureaucrat(void){}
 
 /* GETTER */
 std::string const  Bureaucrat::get_name() const { return _name; };
 int Bureaucrat::get_grade() const { return _grade; };
-
 
 /* HIGH */
 Bureaucrat::GradeTooHighException::GradeTooHighException(void){ return ; };
@@ -49,8 +47,20 @@ Bureaucrat::GradeTooLowException &Bureaucrat::GradeTooLowException::operator= (c
 	(void)rhs;
 	return (*this);
 }
-
-/* Function */
+/* ALREADYSIGNED */
+Bureaucrat::AlreadySignedException::AlreadySignedException(void){ return ; };
+Bureaucrat::AlreadySignedException::~AlreadySignedException(void) throw() { return ; };
+Bureaucrat::AlreadySignedException::AlreadySignedException(AlreadySignedException const & srcs) {
+	*this = srcs;
+	return ;
+}
+const char *Bureaucrat::AlreadySignedException::what() const throw() { return ("The form is already signed."); };
+Bureaucrat::AlreadySignedException &Bureaucrat::AlreadySignedException::operator= (const AlreadySignedException &rhs)
+{
+	(void)rhs;
+	return (*this);
+}
+ /* function */
 void Bureaucrat::downgrade() { 
 	if (get_grade() + 1 > 150)
 		throw Bureaucrat::GradeTooHighException();
@@ -58,21 +68,34 @@ void Bureaucrat::downgrade() {
 		_grade++;
 };
 
-void Bureaucrat::upgrade() { 
+void Bureaucrat::upgrade(){ 
 	if (get_grade() - 1 < 1)
 		throw Bureaucrat::GradeTooHighException();
 	else
 		_grade--;
 };
 
+void Bureaucrat::signForm(Form &f){
+	try
+	{
+		f.beSigned(*this);
+		std::cout <<  get_name() << " signs " <<  f.get_name() << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout <<  e.what() << std::endl;
+	}
+
+}
+
 Bureaucrat &		Bureaucrat::operator=( Bureaucrat const & src ) {
 	if ( this != &src ) {
-		// do something
+		//do something
 	}
 	return *this;
 }
 
 std::ostream & operator<<(std::ostream & o, Bureaucrat const & rhs){
-	o << rhs.get_name() << ", bureaucrat grade " << rhs.get_grade() << std::endl;
+	o << rhs.get_name() << ", bureaucrat grade " << rhs.get_grade();
 	return o;
 };

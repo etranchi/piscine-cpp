@@ -1,51 +1,61 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: etranchi <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/14 12:02:11 by etranchi          #+#    #+#             */
-/*   Updated: 2019/01/14 12:02:12 by etranchi         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-
 #include "Bureaucrat.hpp"
-#include <iostream>
 
 int main() {
+
 	try {
-		Bureaucrat *b = new Bureaucrat("John", 1);
-		std::cout << b << std::endl;
-		b->incrementGrade();
-	} catch (Bureaucrat::GradeTooHighException & e) {
-		std::cout << "1" << std::endl;
-		std::cout << e.what() << std::endl;
-	}catch (Bureaucrat::GradeTooLowException & e) {
-		std::cout << "1" << std::endl;
+		Bureaucrat bob("Bob", 151);
+		std::cout << bob;
+	} catch (std::exception &e) {
 		std::cout << e.what() << std::endl;
 	}
 
 	try {
-		Bureaucrat c("yoo", 150);
-		std::cout << c << std::endl;
-		c.decrementGrade();
-	} catch (std::exception & e) {
-		std::cout << "2" << std::endl;
-		std::cout << e.what() << std::endl;
-	}	
-	try {
-		Bureaucrat *d = new Bureaucrat("Poulet", 151);
-		std::cout << d << std::endl;
-		d->decrementGrade();
-	} catch (Bureaucrat::GradeTooHighException & e) {
-		std::cout << "3" << std::endl;
-		std::cout << e.what() << std::endl;
-	}catch (Bureaucrat::GradeTooLowException & e) {
-		std::cout << "3" << std::endl;
+		Bureaucrat bob("Bob", 0);
+		std::cout << bob;
+	} catch (std::exception &e) {
 		std::cout << e.what() << std::endl;
 	}
-	
+
+	try {
+		Bureaucrat bob("Bob", 150);
+		std::cout << bob;
+		bob.upgrade();
+		std::cout << bob;
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	try {
+		Bureaucrat bob("Bob", 1);
+		std::cout << bob;
+		bob.downgrade();
+		std::cout << bob;
+		} catch (Bureaucrat::GradeTooHighException e) {
+			std::cout << "GradeTooHighException";
+			std::cout << e.what() << std::endl;
+		} catch (Bureaucrat::GradeTooLowException e) {
+			std::cout << "GradeTooLowException";
+			std::cout << e.what() << std::endl;
+		} catch (std::exception &e) {
+			std::cout << "exception";
+			std::cout << e.what() << std::endl;
+		}
+
+	try {
+		Bureaucrat bob("Bob", 1);
+		std::cout << bob;
+		bob.upgrade();
+		std::cout << bob;
+	} catch (Bureaucrat::GradeTooHighException e) {
+		std::cout << "GradeTooHighException";
+		std::cout << e.what() << std::endl;
+	} catch (Bureaucrat::GradeTooLowException e) {
+		std::cout << "GradeTooLowException";
+		std::cout << e.what() << std::endl;
+	} catch (std::exception &e) {
+		std::cout << "exception";
+		std::cout << e.what() << std::endl;
+	}
+
 	return 0;
 }
